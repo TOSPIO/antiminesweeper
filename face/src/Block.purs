@@ -1,19 +1,30 @@
 module Block where
 
-import Thermite as T
+import Prelude
 import React as R
 import React.DOM as R
 import React.DOM.Props as RP
 import ReactDOM as RDOM
-
-import Data.Maybe
+import Thermite as T
 
 data Action = Sweep
 
-type State = { isRevealed :: Maybe Bool, isMine :: Maybe Bool }
+type State = { isRevealed :: Boolean, isMine :: Boolean }
 
 initialState :: State
-initialState = { isRevealed: undefined, isMine: undefined }
+initialState = { isRevealed: false, isMine: false }
 
 render :: T.Render State _ Action
 render dispatch _ state _ =
+  [
+    R.div [ RP.className (getClassName state) ] []
+  ]
+  where
+    getClassName :: State -> String
+    getClassName { isRevealed, isMine }
+      | isRevealed = "unrevealed"
+      | isMine = "mine"
+      | otherwise = "empty"
+
+performAction :: T.PerformAction _ State _ Action
+performAction Sweep _ _ update = update $ \state -> state { isRevealed = true }
