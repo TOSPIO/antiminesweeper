@@ -1,4 +1,4 @@
-module Block where
+module AntiMinesweeper.Block where
 
 import Prelude
 import React as R
@@ -28,3 +28,6 @@ render dispatch _ state _ =
 
 performAction :: T.PerformAction _ State _ Action
 performAction Sweep _ _ update = update $ \state -> state { isRevealed = true }
+
+spec :: T.Spec _ State _ Action
+spec = T.simpleSpec performAction render
